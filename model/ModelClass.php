@@ -18,8 +18,29 @@ class ModelClass{
         $this->model = DbClass::createDb();
     }
 
-    public function select($sql){
-        $res = $this->model->queryDb($sql);
+    public function select($fields,$tbName,$conditions=array()){
+        if (is_array($fields)){
+            $fieldStr = "";
+            foreach ($fields AS $value){
+                $fieldStr.=$value.",";
+            }
+            $fieldStr = trim($fieldStr,",");
+        }else{
+            $fieldStr = "*";
+        }
+        $conditionsValue = array();
+        if (!empty($conditions)){
+            $conditionFields = "";
+            foreach ($conditions AS $key=>$val){
+                $conditionFields.=$key."=?,";
+                array_push($conditionsValue,$val);
+            }
+            $conditionFields = trim($conditionFields,",");
+            $sql = "SELECT {$fieldStr} FROM {$tbName} WHERE $conditionFields";
+        }else{
+            $sql = "SELECT {$fieldStr} FROM {$tbName}";
+        }
+        $res = $this->model->queryDb($sql,$conditionsValue);
         return $res;
     }
 }

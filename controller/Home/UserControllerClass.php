@@ -20,8 +20,8 @@ class UserControllerClass extends ControllerClass {
 
     public function user(){
         $userModel = new ModelClass();
-        $res = $userModel->select('SELECT * FROM tb_1');
-
+        $res = $userModel->select("*","tb_1",array("id"=>3));
+        var_dump($res);
     }
 
 }

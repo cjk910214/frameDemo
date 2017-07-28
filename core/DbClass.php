@@ -33,12 +33,10 @@ class DbClass
         return self::$dbObj;
     }
 
-    public function queryDb($sql){
-        $resObj = $this->db->query($sql);
-        $res = array();
-        foreach ( $resObj as $row){
-            array_push($res,array("id"=>$row['id'],"username"=>$row['username'],"age"=>$row['age']));
-        }
-        return $res;
+    public function queryDb($sql,$params){
+        $pdoObj = $this->db->prepare($sql);
+        $pdoObj->execute($params);
+        $result = $pdoObj->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
     }
 }
