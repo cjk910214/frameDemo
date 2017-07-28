@@ -19,9 +19,10 @@ class UserControllerClass extends ControllerClass {
     }
 
     public function user(){
-        $userModel = new ModelClass();
-        $res = $userModel->select("*","tb_1",array("id"=>3));
+        $userModel = new ModelClass("tb_1");
+        $res = $userModel->order(array("id"=>"DESC"))->limit("0,1")->select();
         var_dump($res);
+
     }
 
 }
