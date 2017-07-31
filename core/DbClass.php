@@ -20,7 +20,7 @@ class DbClass
         $username = "root";
         $pwd = "123456";
         try{
-            $this->db = new \PDO($dsn,$username,$pwd);
+            $this->db = new \PDO($dsn,$username,$pwd,array(\PDO::ATTR_PERSISTENT=>false));
         }catch (\PDOException $e){
             die('连接数据库失败：'.$e);
         }
@@ -38,5 +38,13 @@ class DbClass
         $pdoObj->execute($params);
         $result = $pdoObj->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
+    }
+
+    private function __clone(){
+    }
+
+    public function __destruct(){
+        if (isset(self::$dbObj))
+        self::$dbObj = null;
     }
 }

@@ -16,6 +16,8 @@ class ModelClass{
     protected $model;
     //SQL语句
     protected $sql=array();
+    //count字段
+    protected $counts = "";
     //表名
     private $table;
 
@@ -88,6 +90,30 @@ class ModelClass{
     public function limit($limitNo){
         $this->sql['limit'] = "LIMIT {$limitNo}";
         return $this;
+    }
+
+    //分组
+    public function group($groupList){
+        if (is_array($groupList)){
+            $groupStr = "";
+            foreach ($groupList AS $value){
+                $groupStr.= $value.",";
+            }
+            $groupStr = trim($groupStr,",");
+        }else{
+            $groupStr = $groupList;
+        }
+        $this->sql['group'] = "GROUP BY {$groupStr}";
+        return $this;
+    }
+
+    //count
+    public function count($countNo=""){
+        if ($countNo){
+
+        }else{
+            $countStr = ",count(*),";
+        }
     }
 
     //查询
